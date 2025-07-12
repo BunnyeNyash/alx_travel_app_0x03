@@ -1,6 +1,6 @@
-# ALX Travel App 0x02
+# ALX Travel App 0x03
 
-## Milestone 4: Payment Integration with Chapa API
+## Milestone 5: Setting Up Background Jobs for Email Notifications
 
 ### Objective
 
@@ -10,12 +10,12 @@ This project integrates Chapa API for payment processing in the ALX Travel App (
 
 ### Repository
 
-- GitHub: [alx_travel_app_0x02](https://github.com/BunnyeNyash/alx_travel_app_0x02.git)
+- GitHub: [alx_travel_app_0x02](https://github.com/BunnyeNyash/alx_travel_app_0x03.git)
 - Main Directory: `alx_travel_app`
 
 ### Project Structure
 ```
-alx_travel_app_0x02/
+alx_travel_app_0x03/
 ├── alx_travel_app/
 │   ├── listings/
 │   │   ├── __init__.py
@@ -71,8 +71,8 @@ alx_travel_app_0x02/
 1. Clone the Repository
 
 ```bash
-git clone https://github.com/BunnyeNyash/alx_travel_app_0x02.git
-cd alx_travel_app_0x02
+git clone https://github.com/BunnyeNyash/alx_travel_app_0x03.git
+cd alx_travel_app_0x03
 ```
 
 2. Create and activate a virtual environment:
