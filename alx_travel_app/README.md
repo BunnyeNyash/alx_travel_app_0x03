@@ -2,9 +2,10 @@
 
 ## Milestone 5: Setting Up Background Jobs for Email Notifications
 
-### Objective
+### Overview
 
-This project integrates Chapa API for payment processing in the ALX Travel App (alx_travel_app_0x02). It allows users to make secure payments for bookings, with payment status tracking and email confirmation.
+## Overview
+A Django-based travel booking application with RESTful APIs and asynchronous email notifications using Celery and RabbitMQ.
 
 ---
 
@@ -81,19 +82,8 @@ cd alx_travel_app_0x03
 python -m venv env
 source env/bin/activate  # On Windows: env\Scripts\activate
 ```
-
-3. Chapa API Setup:
-   
-- Sign up at Chapa Developer Portal to obtain API keys.
-- Set the `CHAPA_SECRET_KEY` in your environment variables:
-
-```bash
-export CHAPA_SECRET_KEY='your-chapa-secret-key'
-```
-
-- Ensure the key is loaded in `settings.py` using `os.getenv('CHAPA_SECRET_KEY')`.
   
-4. Install dependencies:
+3. Install dependencies:
 
 - Ensure requests and celery are installed:
 
@@ -102,11 +92,26 @@ pip install requests django-celery-results
 pip freeze >> requirement.txt
 ```
 
-5. Apply migrations for the Payment model
+4. Install and start RabbitMQ:
+```bash
+sudo apt-get install rabbitmq-server
+sudo systemctl enable rabbitmq-server
+sudo systemctl start rabbitmq-server
+```
+
+5. Install and start Redis (if used):
+```bash
+sudo apt-get install redis-server
+sudo systemctl enable redis
+sudo systemctl start redis
+```
+
+6. Apply migrations and then start the Django server
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
+python manage.py runserver
 ```
 
 6. Celery Configuration:
@@ -114,8 +119,8 @@ python manage.py migrate
 
 ```python
 # settings.py
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = 'amqp://localhost'  # RabbitMQ as the message broker
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Redis for storing task results
 ```
 
 - Run Celery worker:
@@ -142,7 +147,7 @@ celery -A alx_travel_app worker -l info
 
 **Bookings:**
 - `GET /api/bookings/`: List all bookings
-- `POST /api/bookings/`: Create a new booking
+- `POST /api/bookings/`: Create a new booking and trigger a confirmation email.
 - `GET /api/bookings/<id>/`: Retrieve a booking
 - `PUT /api/bookings/<id>/`: Update a booking
 - `DELETE /api/bookings/<id>/`: Delete a booking
@@ -236,5 +241,6 @@ Use Postman to test the endpoints
 
 
 ### Notes
-- Ensure `CHAPA_SECRET_KEY` is not hardcoded in the codebase.
-- The `Payment` model includes fields: `booking`, `user`, `amount`, `transaction_id`, and `status`.
+- Ensure RabbitMQ and Redis are running.
+- Make sure Celery worker starts without errors.
+- Ensure Booking creation triggers the email task. and the Email is sent (or logged to console if using console backend).
