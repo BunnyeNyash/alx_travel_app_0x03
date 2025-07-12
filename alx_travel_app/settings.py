@@ -164,18 +164,19 @@ SWAGGER_SETTINGS = {
     }
 }
 
-# Celery settings
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'django-db'
+# Celery Configuration/settings
+CELERY_BROKER_URL = 'amqp://localhost'  # RabbitMQ as the message broker
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Redis for storing task results
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
 
 # email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'        # Example: Gmail SMTP
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-app-password'
+EMAIL_HOST_USER = 'your-email@gmail.com'        # Replace with your email
+EMAIL_HOST_PASSWORD = 'your-app-password'        # Replace with your app-specific password
 DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
