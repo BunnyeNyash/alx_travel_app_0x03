@@ -101,3 +101,8 @@ uritemplate==4.2.0
 urllib3==2.5.0
 vine==5.1.0
 wcwidth==0.2.13
+asgiref==3.9.1
+Django==5.2.4
+python-dotenv==1.1.1
+redis==6.2.0
+sqlparse==0.5.3
