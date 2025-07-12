@@ -13,6 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from celery import shared_task
 from django.core.mail import send_mail
+from .tasks import send_booking_confirmation_email
 
 
 # Temporary start
@@ -68,6 +69,15 @@ class BookingViewSet(viewsets.ModelViewSet):
     )
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        booking = serializer.save()
+        # Trigger the Celery task to send the confirmation email
+        send_booking_confirmation_email.delay(
+            booking.id,
+            booking.user.email,
+            booking.listing.title
+        )
 
 
 class InitiatePaymentView(APIView):
